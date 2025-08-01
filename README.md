@@ -13,18 +13,56 @@ Lanturn Library is a cozy, book-themed full stack application for browsing, savi
 - Search page for finding books by title or author
 - Immersive UI with layers, old book backgrounds, and ambient design
 - Page-turning sound effect synced with animations
+- Add new books to the system via a dedicated form
+- Delete books from the system with authenticated confiration
 
 ---
 
+## Usage
+**Home Page**
+- Greets users with a warm welcome.
+- Shows login/register links for guests or a personalized greeting for logged-in users.
+
+**Catalog Page**
+- Displays books in a responsive grid layout styled like the pages of an open book.
+- Background image and ambient visuals set a cozy library tone.
+- Click on any book to open a detailed modal with:
+  - Cover image, title, author, genre, year, price, stock status, and description
+  - Add to Favorites or Remove from Favorites based on status
+  - Delete Book (if authenticated), with a confirmation prompt
+- Includes Prev/Next buttons for pagination (4 books per page).
+- Add Book button navigates to the add book form.
+
+**Search Page**
+- Accessible via /search or the navigation bar.
+- Allows users to search by title or author using a keyword input field.
+- Displays matching results in the same grid layout as the catalog.
+- Each result is clickable and opens the same modal with full book details and controls.
+- Add Book button is centered below search results.
+
+**Favorites Page**
+- Accessible via /favorites for logged-in users.
+- Displays only the books added to your favorites list.
+- Clicking a favorite opens the modal with full details and a Remove from Favorites button.
+- Favorites are synced with the backend and updated in real time.
+
+**Add Book Page**
+- Accessible via /add or the Add Book buttons on other pages.
+- Lets users submit new books by filling in:
+  - Title, author, genre, year, price, stock status, description, and cover image
+- Requires authentication (JWT).
+- On successful submission, redirects or refreshes the catalog.
+  
+
 ## Tech Stack
 
-** Frontend **
+**Frontend**
 - React (Vite)
 - Tailwind CSS
 - React Context API for Auth
 - LocalStorage for JWT token storage
 
-** Backend **
+**Backend**
 - Node.js with Express
 - MongoDB with mongoose
 - JWT for secure user auth
@@ -45,12 +83,12 @@ cd bookstore-api
 npm install
 ```
 
-####Create a .env file with:
+**Create a .env file with:**
 PORT=4000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 
-####Then start the server:
+**Then start the server:**
 ```npm run dev```
 
 ### Frontend Setup
@@ -88,21 +126,21 @@ npm run dev
 ---
 
 ## Project Structure
-lanturn-library/
-├── bookstore-api/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── uploads/
-│   └── server.js
-├── bookstore-frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── pages/
-│   │   ├── components/
-│   │   ├── context/
-│   │   └── App.jsx
-│   └── vite.config.js
+lanturn-library/ </br>
+├── bookstore-api/ </br>
+│   ├── models/ </br>
+│   ├── routes/ </br>
+│   ├── middleware/ </br>
+│   ├── uploads/ </br>
+│   └── server.js </br>
+├── bookstore-frontend/ </br>
+│   ├── public/ </br>
+│   ├── src/ </br>
+│   │   ├── pages/ </br>
+│   │   ├── components/ </br>
+│   │   ├── context/ </br>
+│   │   └── App.jsx </br>
+│   └── vite.config.js </br>
 
 ---
 
@@ -114,6 +152,6 @@ lanturn-library/
 ---
 
 ## Author
-Hannah Hendrix
-Developer, Designer, and Book Enthusiast
-github.com/hannahhendrix
+Hannah Hendrix </br>
+Developer, Designer, and Book Enthusiast </br>
+github.com/hannahhendrix </br>
