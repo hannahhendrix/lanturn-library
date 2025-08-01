@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom cozy background */
+body {
+  @apply text-gray-900;
+}
+
+/* Optional: override sans-serif with serif for cozy book feel */
+* {
+  font-family: 'Georgia', serif;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-fadeout {
+  animation: fadeout 0.6s ease-in-out;
+}
