@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function BookModal({ book, onClose }) {
   if (!book) return null; // Prevent rendering if no book
 
   const [isFavorited, setIsFavorited] = useState(false);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!token) return;
-    fetch("http://localhost:4000/api/favorites", {
+    fetch('http://localhost:4000/api/favorites', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((favorites) => {
         setIsFavorited(favorites.some((fav) => fav._id === book._id));
       })
-      .catch((err) => console.error("Error fetching favorites:", err));
+      .catch((err) => console.error('Error fetching favorites:', err));
   }, [book, token]);
 
   const handleAddToFavorites = async () => {
@@ -23,15 +23,15 @@ export default function BookModal({ book, onClose }) {
       const res = await fetch(
         `http://localhost:4000/api/favorites/${book._id}`,
         {
-          method: "POST",
+          method: 'POST',
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to add");
+      if (!res.ok) throw new Error(data.error || 'Failed to add');
       setIsFavorited(true);
     } catch (err) {
-      console.error("Error adding to favorites:", err.message);
+      console.error('Error adding to favorites:', err.message);
     }
   };
 
@@ -40,15 +40,15 @@ export default function BookModal({ book, onClose }) {
       const res = await fetch(
         `http://localhost:4000/api/favorites/${book._id}`,
         {
-          method: "DELETE",
+          method: 'DELETE',
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to remove");
+      if (!res.ok) throw new Error(data.error || 'Failed to remove');
       setIsFavorited(false);
     } catch (err) {
-      console.error("Error removing from favorites:", err.message);
+      console.error('Error removing from favorites:', err.message);
     }
   };
 
@@ -74,25 +74,61 @@ export default function BookModal({ book, onClose }) {
         </p>
         <p className="text-sm text-gray-600 mb-1">Price: ${book.price}</p>
         <p className="text-sm text-gray-600 mb-1">
-          {book.inStock ? "In Stock" : "Out of Stock"}
+          {book.inStock ? 'In Stock' : 'Out of Stock'}
         </p>
         <p className="mt-4 text-gray-800">{book.description}</p>
+        <div className="mt-6 flex flex-col sm:flex-row sm:justify-center sm:gap-4 items-center">
+          {isFavorited ? (
+            <button
+              onClick={handleRemoveFromFavorites}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mb-3 sm:mb-0"
+            >
+              ❤️ Remove from Favorites
+            </button>
+          ) : (
+            <button
+              onClick={handleAddToFavorites}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-3 sm:mb-0"
+            >
+              ➕ Add to Favorites
+            </button>
+          )}
 
-        {isFavorited ? (
           <button
-            onClick={handleRemoveFromFavorites}
-            className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+            onClick={async () => {
+              const confirmDelete = confirm(
+                'Are you sure you want to delete this book?'
+              );
+              if (!confirmDelete) return;
+
+              const token = localStorage.getItem('token');
+
+              try {
+                const res = await fetch(
+                  `http://localhost:4000/api/books/${book._id}`,
+                  {
+                    method: 'DELETE',
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  }
+                );
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to delete');
+
+                alert('Book deleted!');
+                onClose(); // Close modal
+              } catch (err) {
+                console.error('Error deleting book:', err.message);
+                alert('Error deleting book');
+              }
+            }}
+            className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded"
           >
-            ❤️ Remove from Favorites
+            🗑️ Delete Book
           </button>
-        ) : (
-          <button
-            onClick={handleAddToFavorites}
-            className="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-          >
-            ➕ Add to Favorites
-          </button>
-        )}
+        </div>
       </div>
     </div>
   );

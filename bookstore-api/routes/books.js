@@ -56,14 +56,27 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a book
-router.post("/", auth, async (req, res) => {
-  const newBook = new Book(req.body);
+// POST /api/books with image upload
+router.post('/', auth, upload.single('coverImage'), async (req, res) => {
   try {
-    const saved = await newBook.save();
-    res.status(201).json(saved);
+    const { title, author, genre, publishedYear, price, inStock, description } = req.body;
+    const coverImage = req.file ? `/uploads/${req.file.filename}` : '';
+
+    const newBook = new Book({
+      title,
+      author,
+      genre,
+      publishedYear,
+      price,
+      inStock,
+      description,
+      coverImage,
+    });
+
+    await newBook.save();
+    res.status(201).json(newBook);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: 'Failed to add book' });
   }
 });
 

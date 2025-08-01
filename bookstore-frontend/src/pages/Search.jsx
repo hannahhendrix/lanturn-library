@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BookModal from '../components/BookModal';
+import { Link } from 'react-router-dom';
 
 export default function Search() {
   const [search, setSearch] = useState('');
@@ -74,7 +75,15 @@ export default function Search() {
           ))}
         </div>
       )}
-
+      {/* ➕ Add Book */}
+      <div>
+        <Link
+          to="/add"
+          className="flex justify-center bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full shadow-md transition"
+        >
+          ➕ Add Book
+        </Link>
+      </div>
       <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
     </div>
   );

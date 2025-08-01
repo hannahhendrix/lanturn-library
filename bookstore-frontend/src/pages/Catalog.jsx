@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import BookModal from "../components/BookModal";
+import { useEffect, useState, useRef } from 'react';
+import BookModal from '../components/BookModal';
+import { Link } from 'react-router-dom';
 
 export default function Catalog() {
   const [books, setBooks] = useState([]);
@@ -17,7 +18,7 @@ export default function Catalog() {
       audioRef.current.currentTime = 0;
       audioRef.current
         .play()
-        .catch((err) => console.warn("Page turn sound error:", err));
+        .catch((err) => console.warn('Page turn sound error:', err));
     }
 
     // Hide visual after animation
@@ -28,7 +29,7 @@ export default function Catalog() {
       .then((res) => res.json())
       .then((data) => setBooks(data.books || []))
       .catch((err) => {
-        console.error("Error fetching books:", err);
+        console.error('Error fetching books:', err);
         setBooks([]);
       });
   }, [page]);
@@ -75,7 +76,7 @@ export default function Catalog() {
                 className="h-64 w-full object-cover rounded mb-2"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "/default-cover.jpg";
+                  e.target.src = '/default-cover.jpg';
                 }}
               />
               <h3 className="text-lg font-bold">{book.title}</h3>
@@ -102,12 +103,12 @@ export default function Catalog() {
 
         {/* ➕ Add Book */}
         <div className="mt-8 text-center">
-          <a
-            href="/add"
+          <Link
+            to="/add"
             className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full shadow-md transition"
           >
             ➕ Add Book
-          </a>
+          </Link>
         </div>
         <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
       </div>

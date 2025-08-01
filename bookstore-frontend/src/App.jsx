@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Catalog from './pages/Catalog';
 import Favorites from './pages/Favorites';
 import Search from './pages/Search';
+import AddBook from './pages/AddBook.jsx'
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext.jsx';
 
@@ -62,6 +63,7 @@ export default function App() {
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/add" element={<AddBook />} />
           </Routes>
         </main>
       </div>
